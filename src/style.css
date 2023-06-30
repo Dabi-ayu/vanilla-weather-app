@@ -64,3 +64,11 @@ li {
 a{
     text-decoration: none;
 }
+.temperature-units .active{
+    color: rgb(33, 33, 33);
+    cursor: default;
+}
+
+.temperature-units .active:hover {
+    text-decoration: none;
+}

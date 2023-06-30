@@ -28,9 +28,10 @@ function displayTemperature(response) {
     let wind = Math.round(`${response.data.wind.speed}`);
     let dateElement = document.querySelector("#date");
     let iconElement = document.querySelector("#icon");
+    celciusTemperature = response.data.temperature.current;
 
     cityName.innerHTML = response.data.city;
-    temperatureElement.innerHTML = Math.round(response.data.temperature.current);
+    temperatureElement.innerHTML = Math.round(celciusTemperature);
     descriptionElement.innerHTML = response.data.condition.description;
     humidityElement.innerHTML = `Humidity: ${response.data.temperature.humidity}%`;
     windElement.innerHTML = `Wind: ${wind}km/h`;
@@ -57,6 +58,36 @@ function searchCity(city) {
     axios.get(apiUrl).then(displayTemperature);
 }
 
+
+function farenheitLink(event) {
+    event.preventDefault();
+    celcuis.classList.remove("active");
+    farenheit.classList.add("active");
+    let temperatureElement = document.querySelector("#temperature");
+    let farenheitValue = (celciusTemperature * 9)/ 5 + 32;
+    temperatureElement.innerHTML = Math.round(farenheitValue);
+}
+
+function celcuisLink(event) {
+    event.preventDefault();
+    celcuis.classList.add("active");
+    farenheit.classList.remove("active");
+     let temperatureElement = document.querySelector("#temperature");
+    temperatureElement.innerHTML = Math.round(celciusTemperature);
+}
+
+
+let celciusTemperature = null;
+
 searchCity("New York");
+
+    
+let farenheit = document.querySelector("#farenheit-unit");
+farenheit.addEventListener("click", farenheitLink);
+
+let celcuis = document.querySelector("#degree-unit");
+celcuis.addEventListener("click", celcuisLink);
+
 let searchElement = document.querySelector("#search-form");
 searchElement.addEventListener("submit", search);
+
