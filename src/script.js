@@ -27,6 +27,7 @@ function displayTemperature(response) {
     let windElement = document.querySelector("#wind");
     let wind = Math.round(`${response.data.wind.speed}`);
     let dateElement = document.querySelector("#date");
+    let iconElement = document.querySelector("#icon");
 
     cityName.innerHTML = response.data.city;
     temperatureElement.innerHTML = Math.round(response.data.temperature.current);
@@ -34,15 +35,15 @@ function displayTemperature(response) {
     humidityElement.innerHTML = `Humidity: ${response.data.temperature.humidity}%`;
     windElement.innerHTML = `Wind: ${wind}km/h`;
     dateElement.innerHTML = formatDate(response.data.temperature.time * 1000);
-    
+    iconElement.setAttribute("src", `${response.data.condition.icon_url}`)
 
     
     
 }
 
 
-
+let city = "New York";
 let apiKey = "2o09becb3b08bea846ef5fd5t3834e89";
-let apiUrl = `https://api.shecodes.io/weather/v1/current?query=Lisbon&key=${apiKey}&units=metric`;
+let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
 
 axios.get(apiUrl).then(displayTemperature);
