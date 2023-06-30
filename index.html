@@ -11,16 +11,17 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="src/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   </head>
   <body>
     <div class="container">
       <div class="outer-wrapper">
         <div class="weather-wrapper">
           <div class="overview">
-            <h1>New York</h1>
+            <h1 id="city"></h1>
             <ul>
               <li>Friday 05:00</li>
-              <li>clear</li>
+              <li id="description"></li>
             </ul>
           </div>
           <div class="row">
@@ -30,15 +31,14 @@
                   src="https://ssl.gstatic.com/onebox/weather/64/sunny.png"
                   alt="description-icon"
                 />
-                <strong>12</strong
+                <strong id="temperature">12</strong
                 ><span class="temperature-units">°C | <a href="#">°F</a></span>
               </div>
             </div>
             <div class="col-6">
               <ul>
-                <li>Precipitation:0%</li>
-                <li>Humidity:73%</li>
-                <li>wind: 1km/h</li>
+                <li id="humidity">Humidity:73%</li>
+                <li id="wind">wind:1km/h</li>
               </ul>
             </div>
           </div>
@@ -47,7 +47,7 @@
           <a href="https://github.com/Dabi-ayu/vanilla-weather-app"
             >open source code</a
           >
-          by Dabi
+          <strong>by Dabi</strong>
         </small>
       </div>
     </div>
