@@ -17,9 +17,35 @@ function formatDate(timestamp) {
 
     return ` ${day} ${hours}:${minutes}`;
 }
+function forecast(response) {
+    console.log(response.data);
+    let iconElement = document.querySelector("#forecast-icon");
+    let maxTempElement = document.querySelector("#forecast-max");
+    let minTempElement = document.querySelector("#forecast-min");
+
+    let maxTemperature = Math.round(response.data.daily[0].temperature.maximum);
+    let minTemperature = Math.round(response.data.daily[0].temperature.minimum);
+
+    maxTempElement.innerHTML = `${maxTemperature}°`;
+    minTempElement.innerHTML = `${minTemperature}°`;
+
+
+
+
+}
+
+
+function cityForecast(forecastCity) {
+    
+    let apiKey = "2o09becb3b08bea846ef5fd5t3834e89";
+    let urlForecast = `https://api.shecodes.io/weather/v1/forecast?query=${forecastCity}&key=${apiKey}&units=metric`;
+
+
+    axios.get(urlForecast).then(forecast);
+
+}
 
 function displayTemperature(response) {
-    
     let cityName = document.querySelector("#city");
     let temperatureElement = document.querySelector("#temperature");
     let descriptionElement = document.querySelector("#description");
@@ -39,7 +65,7 @@ function displayTemperature(response) {
     iconElement.setAttribute("src", `${response.data.condition.icon_url}`);
 
 
-    
+    cityForecast(response.data.city);
     
 }
 
@@ -88,10 +114,11 @@ function displayForecast() {
                   src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/broken-clouds-night.png"
                   alt="forecast icon"
                   width="36"
+                  id="forecast-icon"
                 />
                 <div class="forecast-temperature">
-                  <span class="forecast-max">18°</span>
-                  <span class="forecast-min">12°</span>
+                  <span class="forecast-max" id="forecast-max"></span>
+                  <span class="forecast-min" id="forecast-min"></span>
                 </div>
               </div>`;
     });
