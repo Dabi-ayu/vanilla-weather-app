@@ -2,7 +2,7 @@ function formatDate(timestamp) {
     let date = new Date();
     let hours = date.getHours();
     let minutes = date.getMinutes();
-    let days = ["Sunday", "Monday", "Tuesday", "Wendnesday", "Thursday", "Friday", "Saturday"];
+    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let day = days[date.getDay()];
 
     if (hours < 10) {
@@ -17,21 +17,14 @@ function formatDate(timestamp) {
 
     return ` ${day} ${hours}:${minutes}`;
 }
-function forecast(response) {
-    console.log(response.data);
-    let iconElement = document.querySelector("#forecast-icon");
-    let maxTempElement = document.querySelector("#forecast-max");
-    let minTempElement = document.querySelector("#forecast-min");
-
-    let maxTemperature = Math.round(response.data.daily[0].temperature.maximum);
-    let minTemperature = Math.round(response.data.daily[0].temperature.minimum);
-
-    maxTempElement.innerHTML = `${maxTemperature}°`;
-    minTempElement.innerHTML = `${minTemperature}°`;
+function formatDay(timestamp) {
+    let date = new Date(timestamp * 1000);  
+    let day = date.getDay();
+    
+    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 
-
-
+    return days[day];
 }
 
 
@@ -41,7 +34,7 @@ function cityForecast(forecastCity) {
     let urlForecast = `https://api.shecodes.io/weather/v1/forecast?query=${forecastCity}&key=${apiKey}&units=metric`;
 
 
-    axios.get(urlForecast).then(forecast);
+    axios.get(urlForecast).then(displayForecast);
 
 }
 
@@ -102,25 +95,35 @@ function celcuisLink(event) {
     temperatureElement.innerHTML = Math.round(celciusTemperature);
 }
 
-function displayForecast() {
+function displayForecast(response) {
+    console.log(response.data.daily);
     let forecastElement = document.querySelector("#forecast");
+    let forecast = response.data.daily;
     let forecastHTML = `<div class="row">`; 
 
-    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    days.forEach(function (day) {
-        forecastHTML = forecastHTML + `<div class="col-2">
+
+    forecast.forEach(function (forecastDay, index) {
+        if (index < 6) {
+            let max = Math.round(forecastDay.temperature.maximum);
+            let min = Math.round(forecastDay.temperature.minimum);
+
+            let day = formatDay(forecastDay.time);
+
+
+            forecastHTML = forecastHTML + `<div class="col-2">
                 <div class="weather-forecast-date">${day}</div>
                 <img
-                  src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/broken-clouds-night.png"
+                  src="http://shecodes-assets.s3.amazonaws.com/api/weather/icons/${forecastDay.condition.icon}.png"
                   alt="forecast icon"
                   width="36"
                   id="forecast-icon"
                 />
                 <div class="forecast-temperature">
-                  <span class="forecast-max" id="forecast-max"></span>
-                  <span class="forecast-min" id="forecast-min"></span>
+                  <span class="forecast-max" id="forecast-max">${max}°</span>
+                  <span class="forecast-min" id="forecast-min">${min}°</span>
                 </div>
               </div>`;
+        }
     });
     
     forecastHTML = forecastHTML + `</div>`;
@@ -128,8 +131,6 @@ function displayForecast() {
 
 }
 
-
-displayForecast();
 
 let celciusTemperature = null;
 
