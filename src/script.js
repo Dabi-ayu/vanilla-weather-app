@@ -77,26 +77,8 @@ function searchCity(city) {
     axios.get(apiUrl).then(displayTemperature);
 }
 
-
-function farenheitLink(event) {
-    event.preventDefault();
-    celcuis.classList.remove("active");
-    farenheit.classList.add("active");
-    let temperatureElement = document.querySelector("#temperature");
-    let farenheitValue = (celciusTemperature * 9)/ 5 + 32;
-    temperatureElement.innerHTML = Math.round(farenheitValue);
-}
-
-function celcuisLink(event) {
-    event.preventDefault();
-    celcuis.classList.add("active");
-    farenheit.classList.remove("active");
-     let temperatureElement = document.querySelector("#temperature");
-    temperatureElement.innerHTML = Math.round(celciusTemperature);
-}
-
 function displayForecast(response) {
-    console.log(response.data.daily);
+    
     let forecastElement = document.querySelector("#forecast");
     let forecast = response.data.daily;
     let forecastHTML = `<div class="row">`; 
@@ -135,13 +117,6 @@ function displayForecast(response) {
 let celciusTemperature = null;
 
 searchCity("New York");
-
-    
-let farenheit = document.querySelector("#farenheit-unit");
-farenheit.addEventListener("click", farenheitLink);
-
-let celcuis = document.querySelector("#degree-unit");
-celcuis.addEventListener("click", celcuisLink);
 
 let searchElement = document.querySelector("#search-form");
 searchElement.addEventListener("submit", search);
